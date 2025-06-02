@@ -1,7 +1,16 @@
 import React, { useState } from "react";
-import { View, TextInput, Button, StyleSheet, Alert, Text, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  TextInput,
+  Button,
+  StyleSheet,
+  Alert,
+  Text,
+  TouchableOpacity,
+  Image
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import Footer from '../components/Footer';
+import Footer from "../components/Footer"; // Adjust path if needed
 
 const LoginScreen = () => {
   const [username, setUsername] = useState("");
@@ -10,12 +19,12 @@ const LoginScreen = () => {
 
   const handleLogin = async () => {
     if (!username || !password) {
-      Alert.alert("Error", "Please enter username and password.");
+      Alert.alert("Validation Error", "Please enter both username and password.");
       return;
     }
 
     try {
-      const response = await fetch('http://192.168.100.20:3000/auth/login', {
+      const response = await fetch("http://192.168.100.20:3000/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -26,8 +35,8 @@ const LoginScreen = () => {
       const data = await response.json();
 
       if (response.ok) {
-        Alert.alert("Success", "Login Successful!");
-        navigation.navigate("Home");
+        Alert.alert("Success", "Login successful!");
+        navigation.navigate("Students"); // Navigate to Students screen
       } else {
         Alert.alert("Login Failed", data.message || "Invalid credentials");
       }
@@ -41,13 +50,13 @@ const LoginScreen = () => {
     <View style={styles.container}>
       <Image
         source={{
-          uri: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYsAAACACAMAAADNjrXOAAAAk1BMVEX///8KcPUA..."
+          uri: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png", // Example student icon
         }}
         style={styles.image}
         resizeMode="contain"
       />
 
-      <Text style={styles.title}>Login</Text>
+      <Text style={styles.title}>Student Login</Text>
 
       <TextInput
         placeholder="Username"
@@ -127,4 +136,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+
 export default LoginScreen;

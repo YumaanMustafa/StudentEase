@@ -1,29 +1,26 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
-const Header = ({ title, onLogout }) => {
+const Header = () => {
   return (
     <View style={styles.header}>
-      <Text style={styles.title}>{title}</Text>
-      {onLogout && (
-        <Button title="Logout" onPress={onLogout} color="red" />
-      )}
+      <Text style={styles.title}>🎓 Student Portal</Text>
     </View>
   );
 };
 
-export default Header;
-
 const styles = StyleSheet.create({
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    backgroundColor: '#005EB8',
+    paddingVertical: 20,
     alignItems: 'center',
-    backgroundColor: '#f5f5f5',
-    padding: 15,
+    elevation: 4,
   },
   title: {
-    fontSize: 18,
+    color: '#fff',
+    fontSize: 22,
     fontWeight: 'bold',
   },
 });
+
+export default Header;

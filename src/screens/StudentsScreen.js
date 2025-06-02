@@ -6,26 +6,26 @@ import {
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-const API_URL = 'http://192.168.100.20:3000/products';
+const API_URL = 'http://192.168.100.20:3000/students';
 
-const ProductsScreen = ({ navigation }) => {
-  const [products, setProducts] = useState([]);
+const StudentManagementScreen = ({ navigation }) => {
+  const [students, setStudents] = useState([]);
   const [editingId, setEditingId] = useState(null);
-  const [form, setForm] = useState({ name: '', description: '', price: '' });
+  const [form, setForm] = useState({ name: '', age: '', course: '' });
 
-  const fetchProducts = async () => {
+  const fetchStudents = async () => {
     try {
       const res = await fetch(API_URL);
       const data = await res.json();
-      setProducts(data);
+      setStudents(data);
     } catch (error) {
       console.error('Fetch error:', error);
-      Alert.alert('Error', 'Failed to load products.');
+      Alert.alert('Error', 'Failed to load students.');
     }
   };
 
   useEffect(() => {
-    fetchProducts();
+    fetchStudents();
   }, []);
 
   const handleChange = (field, value) => {
@@ -33,24 +33,23 @@ const ProductsScreen = ({ navigation }) => {
   };
 
   const handleAdd = async () => {
-    const { name, description, price } = form;
-    if (!name || !price) {
-      return Alert.alert('Error', 'Product name and price are required.');
+    const { name, age, course } = form;
+    if (!name || !age || !course) {
+      return Alert.alert('Error', 'All fields are required.');
     }
     try {
       const res = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, description, price }),
+        body: JSON.stringify({ name, age, course }),
       });
 
-      if (!res.ok) throw new Error('Failed to add product');
-      setForm({ name: '', description: '', price: '' });
-      fetchProducts();
-      navigation.navigate('ProductList');
+      if (!res.ok) throw new Error('Failed to add student');
+      setForm({ name: '', age: '', course: '' });
+      fetchStudents();
     } catch (error) {
       console.error('Add error:', error);
-      Alert.alert('Error', 'Could not add product.');
+      Alert.alert('Error', 'Could not add student.');
     }
   };
 
@@ -62,13 +61,13 @@ const ProductsScreen = ({ navigation }) => {
         body: JSON.stringify(form),
       });
 
-      if (!res.ok) throw new Error('Failed to update product');
+      if (!res.ok) throw new Error('Failed to update student');
       setEditingId(null);
-      setForm({ name: '', description: '', price: '' });
-      fetchProducts();
+      setForm({ name: '', age: '', course: '' });
+      fetchStudents();
     } catch (error) {
       console.error('Update error:', error);
-      Alert.alert('Error', 'Could not update product.');
+      Alert.alert('Error', 'Could not update student.');
     }
   };
 
@@ -77,20 +76,20 @@ const ProductsScreen = ({ navigation }) => {
       const res = await fetch(`${API_URL}/${id}`, {
         method: 'DELETE',
       });
-      if (!res.ok) throw new Error('Failed to delete product');
-      fetchProducts();
+      if (!res.ok) throw new Error('Failed to delete student');
+      fetchStudents();
     } catch (error) {
       console.error('Delete error:', error);
-      Alert.alert('Error', 'Could not delete product.');
+      Alert.alert('Error', 'Could not delete student.');
     }
   };
 
-  const startEdit = (product) => {
-    setEditingId(product.id);
+  const startEdit = (student) => {
+    setEditingId(student.id);
     setForm({
-      name: product.name,
-      description: product.description || '',
-      price: product.price.toString(),
+      name: student.name,
+      age: student.age.toString(),
+      course: student.course,
     });
   };
 
@@ -117,19 +116,10 @@ const ProductsScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* Consistent Header with Logout */}
-      <Header title="Products" onLogout={handleLogout} />
-
-      {/* Navigate to Product List */}
-      <TouchableOpacity
-        onPress={() => navigation.navigate('ProductList')}
-        style={styles.viewListBtn}
-      >
-        <Text style={styles.viewListBtnText}>View All Products</Text>
-      </TouchableOpacity>
+      <Header title="Student Management" onLogout={handleLogout} />
 
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <Text style={styles.title}>{editingId ? '✏️ Edit Product' : '➕ Add Product'}</Text>
+        <Text style={styles.title}>{editingId ? '✏️ Edit Student' : '➕ Add Student'}</Text>
         <View style={styles.card}>
           <TextInput
             placeholder="Name"
@@ -138,37 +128,37 @@ const ProductsScreen = ({ navigation }) => {
             onChangeText={(text) => handleChange('name', text)}
           />
           <TextInput
-            placeholder="Description"
-            style={styles.input}
-            value={form.description}
-            onChangeText={(text) => handleChange('description', text)}
-          />
-          <TextInput
-            placeholder="Price"
+            placeholder="Age"
             style={styles.input}
             keyboardType="numeric"
-            value={form.price}
-            onChangeText={(text) => handleChange('price', text)}
+            value={form.age}
+            onChangeText={(text) => handleChange('age', text)}
+          />
+          <TextInput
+            placeholder="Course"
+            style={styles.input}
+            value={form.course}
+            onChangeText={(text) => handleChange('course', text)}
           />
           <TouchableOpacity
             style={styles.addButton}
             onPress={editingId ? handleUpdate : handleAdd}
           >
             <Text style={styles.addButtonText}>
-              {editingId ? 'Update Product' : 'Add Product'}
+              {editingId ? 'Update Student' : 'Add Student'}
             </Text>
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.title}>🛍️ Products (Preview)</Text>
-        {products.map((product) => (
-          <View key={product.id} style={styles.card}>
-            <Text style={styles.name}>{product.name}</Text>
-            <Text style={styles.description}>{product.description}</Text>
-            <Text style={styles.price}>Price: ${product.price}</Text>
+        <Text style={styles.title}>🎓 Students List</Text>
+        {students.map((student) => (
+          <View key={student.id} style={styles.card}>
+            <Text style={styles.name}>{student.name}</Text>
+            <Text style={styles.description}>Age: {student.age}</Text>
+            <Text style={styles.price}>Course: {student.course}</Text>
 
             <View style={styles.buttonRow}>
-              <TouchableOpacity onPress={() => startEdit(product)} style={styles.editBtn}>
+              <TouchableOpacity onPress={() => startEdit(student)} style={styles.editBtn}>
                 <Text style={styles.btnText}>Edit</Text>
               </TouchableOpacity>
 
@@ -176,13 +166,13 @@ const ProductsScreen = ({ navigation }) => {
                 onPress={() =>
                   Alert.alert(
                     'Confirm Delete',
-                    'Are you sure you want to delete this product?',
+                    'Are you sure you want to delete this student?',
                     [
                       { text: 'Cancel', style: 'cancel' },
                       {
                         text: 'Delete',
                         style: 'destructive',
-                        onPress: () => handleDelete(product.id),
+                        onPress: () => handleDelete(student.id),
                       },
                     ],
                     { cancelable: true }
@@ -204,18 +194,6 @@ const ProductsScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#f5f5f5' },
-  viewListBtn: {
-    backgroundColor: '#008CBA',
-    padding: 12,
-    margin: 10,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  viewListBtnText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
   scrollContainer: { flexGrow: 1, padding: 20, alignItems: 'center' },
   title: { fontSize: 20, fontWeight: 'bold', marginVertical: 15 },
   card: {
@@ -254,4 +232,4 @@ const styles = StyleSheet.create({
   btnText: { color: '#fff' },
 });
 
-export default ProductsScreen;
+export default StudentManagementScreen;

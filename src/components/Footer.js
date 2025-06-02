@@ -1,26 +1,26 @@
-// src/components/Footer.js
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-/**
- * Reusable footer component
- */
-const Footer = () => (
-  <View style={styles.footer}>
-    <Text style={styles.footerText}>© 2025 SimpleShop</Text>
-  </View>
-);
-//styling for footer
+const Footer = () => {
+  return (
+    <View style={styles.footer}>
+      <Text style={styles.text}>© 2025 Student Portal</Text>
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
   footer: {
-    height: 40,
-    justifyContent: 'center',
+    backgroundColor: '#005EB8',
+    padding: 10,
     alignItems: 'center',
-    backgroundColor: '#f2f2f2',
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
   },
-  footerText: {
-    fontSize: 12,
-    color: '#888',
+  text: {
+    color: '#fff',
+    fontSize: 14,
   },
 });
 
