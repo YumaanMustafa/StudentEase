@@ -1,0 +1,9 @@
+*.js linguist-language=JavaScript
+*.jsx linguist-language=JavaScript
+*.html linguist-detectable=false
+*.css linguist-detectable=false
+*.json linguist-detectable=false
+*.md linguist-detectable=false
+*.lock linguist-detectable=false
+package-lock.json linguist-detectable=false
+yarn.lock linguist-detectable=false
