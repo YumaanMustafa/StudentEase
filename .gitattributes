@@ -1,1 +1,18 @@
 *.js linguist-detectable=true
+*.jsx linguist-detectable=true
+
+# Treat all other file types as generated or ignore them
+*.ts linguist-detectable=false
+*.tsx linguist-detectable=false
+*.json linguist-detectable=false
+*.md linguist-detectable=false
+*.yml linguist-detectable=false
+*.html linguist-detectable=false
+*.css linguist-detectable=false
+*.scss linguist-detectable=false
+*.png linguist-detectable=false
+*.jpg linguist-detectable=false
+*.svg linguist-detectable=false
+*.lock linguist-detectable=false
+
+* linguist-language=JavaScript
